@@ -28,9 +28,9 @@
     </environments>
 
     <mappers>
-        <mapper resource="Girl.xml"/>
-        <mapper resource="Klass.xml"/>
-        <mapper resource="Student.xml"/>
+        <mapper resource="mapper/Girl.xml"/>
+        <mapper resource="mapper/Klass.xml"/>
+        <mapper resource="mapper/Student.xml"/>
     </mappers>
 
 </configuration>
