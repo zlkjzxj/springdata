@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Girl">
+
+    <resultMap type="com.walle.bean.Girl" id="UserResult">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="cupSize" jdbcType="VARCHAR" property="cupSize"/>
+        <result column="age" jdbcType="BOOLEAN" property="age"/>
+    </resultMap>
+
+    <!--where 会把最前面的and去掉，set会把最后面的，去掉-->
+    <select id="findGirls" resultMap="UserResult">
+        SELECT * FROM girl
+    </select>
+    <select id="findOneGirl" parameterType="Integer" resultMap="UserResult">
+        SELECT * FROM girl
+        <where>
+            -- 报integer没有set方法是因为test里面必须写成_parameter,而且int没必要去比较空字符串，截取之类的
+            <if test="_parameter !=null">
+                id =#{_parameter,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <update id="updateGirls" parameterType="java.util.List">
+        UPDATE girl
+        <set>
+            <!-- <if test="age !=null "> -->
+            <!--</if>-->
+            <!--<if test="name !=null and  !&quot;&quot;.equals(name.trim())">-->
+            name = 'walle'
+            <!--        </if> -->
+        </set>
+
+        WHERE id in(
+        -- collection 集合list 数组arry
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </update>
+    <delete id="deleteGirls" parameterType="java.util.List">
+        DELETE from girl WHERE id in(
+        -- collection 集合list 数组arry
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+    <!--<sql id="columns">-->
+    <!--id,name,age,cupsize-->
+    <!--</sql>-->
+
+    <!--<update id="testtest">-->
+    <!--&#45;&#45; 这个相当于where标签-->
+    <!--<trim prefix="where" prefixOverrides="and/or">-->
+
+    <!--</trim>-->
+    <!--<trim prefix="set" suffixOverrides=",">-->
+    <!--&#45;&#45; 这个相当于set标签-->
+    <!--</trim>-->
+    <!--&#45;&#45; if else 你死我亡，必须有一个 相当于if else if else if else-->
+    <!--<choose>-->
+    <!--<when test="">-->
+
+    <!--</when>-->
+    <!--<when test="">-->
+
+    <!--</when>-->
+    <!--<when test="">-->
+
+    <!--</when>-->
+    <!--<otherwise>-->
+
+    <!--</otherwise>-->
+    <!--</choose>-->
+    <!--</update>-->
+</mapper>

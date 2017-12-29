@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Klass">
+
+    <resultMap type="com.walle.bean.Klass" id="klassResultMap">
+        <id column="cid" jdbcType="INTEGER" property="id"/>
+        <result column="cname" jdbcType="VARCHAR" property="name"/>
+
+        <!--实体定义一个list,这吧他的mapper里面定义的属性引进来-->
+        <collection property="studentList" resultMap="Student.student"/>
+    </resultMap>
+
+    <!--如果名字有重复的，就得重命名不然就只取一个 像id和name就得重命名-->
+    <select id="queryClass" parameterType="com.walle.bean.Klass" resultMap="klassResultMap">
+        SELECT a.id cid,a.name cname,b.id,b.name,b.gender,b.age,b.kid from klass a left JOIN student b on a.id = b.kid
+        <where>
+            <if test="id !=null">
+                and a.id = #{id}
+            </if>
+        </where>
+    </select>
+
+</mapper>
